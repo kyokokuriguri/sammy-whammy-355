@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody myRB;
+    Rigidbody axle;
     Camera playerCam;
 
     Vector2 camRotation;
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myRB = GetComponent<Rigidbody>();
+        axle = GetComponent<Rigidbody>();
         playerCam = transform.GetChild(0).GetComponent<Camera>();
 
         camRotation = Vector2.zero;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
-        Vector3 temp = myRB.velocity;
+        Vector3 temp = axle.velocity;
 
         float verticalMove = Input.GetAxisRaw("Vertical");
         float horizontalMove = Input.GetAxisRaw("Horizontal");
@@ -81,6 +81,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
             temp.y = jumpHeight;
 
-        myRB.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+        axle.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
     }
 }
