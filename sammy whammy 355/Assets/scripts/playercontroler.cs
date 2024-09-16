@@ -10,7 +10,14 @@ public class PlayerController : MonoBehaviour
     Vector2 camRotation;
 
     public bool sprintMode = false;
+    [Header("wepon stats")]
+    public bool canFire = true;
+    public Transform weponSlot;
 
+    [Header("player stats")]
+    public int maxHealth = 5;
+    public int health = 5;
+    public int healthRestore = 1;
     [Header("Movement Settings")]
     public float speed = 10.0f;
     public float sprintMultiplier = 2.5f;
@@ -51,7 +58,7 @@ public class PlayerController : MonoBehaviour
         float verticalMove = Input.GetAxisRaw("Vertical");
         float horizontalMove = Input.GetAxisRaw("Horizontal");
 
-        if(!sprintToggleOption)
+        if (!sprintToggleOption)
         {
             if (Input.GetKey(KeyCode.LeftShift))
                 sprintMode = true;
@@ -60,7 +67,7 @@ public class PlayerController : MonoBehaviour
                 sprintMode = false;
         }
 
-        if(sprintToggleOption)
+        if (sprintToggleOption)
         {
             if (Input.GetKey(KeyCode.LeftShift) && verticalMove > 0)
                 sprintMode = true;
@@ -69,10 +76,10 @@ public class PlayerController : MonoBehaviour
                 sprintMode = false;
         }
 
-        if(!sprintMode)
+        if (!sprintMode)
             temp.x = verticalMove * speed;
 
-        if(sprintMode)
+        if (sprintMode)
             temp.x = verticalMove * speed * sprintMultiplier;
 
         temp.z = horizontalMove * speed;
@@ -82,5 +89,29 @@ public class PlayerController : MonoBehaviour
             temp.y = jumpHeight;
 
         axle.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if ((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
+        {
+            health += healthRestore;
+
+            if (health > maxHealth)
+                health = maxHealth;
+
+            Destroy(collision.gameObject);
+        }
+
+        
+            if (collision.gameObject.tag == "wepon")
+                collision.gameObject.transform.SetParent(weponSlot);
+    }
+    
+    IEnumerator cooldownFire(float time)
+    {
+        yield return new WaitForSeconds(time);
+        canFire = true;
+
     }
 }
