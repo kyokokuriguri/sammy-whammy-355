@@ -10,9 +10,20 @@ public class PlayerController : MonoBehaviour
     Vector2 camRotation;
 
     public bool sprintMode = false;
+
     [Header("wepon stats")]
     public bool canFire = true;
     public Transform weponSlot;
+    public int weponID = 1;
+    public float fireRate = 0;
+    public float maxAmmo = 0;
+    public float currentAmmo = 0;
+    public int Firemode = 1;
+    public float reloadAmount = 0;
+    public float clipSize = 0;
+    public float currentClip = 0;
+
+
 
     [Header("player stats")]
     public int maxHealth = 5;
@@ -52,6 +63,16 @@ public class PlayerController : MonoBehaviour
 
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
+
+        if (Input.GetMouseButton(0) && canFire)
+        {
+            canFire = false;
+            currentAmmo--;
+            Startcoroutine("cooldownFire");
+        }
+
+        if (Input.GetKeyCode(KeyCode.R)
+            reloadClip();
 
         Vector3 temp = axle.velocity;
 
@@ -103,15 +124,67 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        
-            if (collision.gameObject.tag == "wepon")
-                collision.gameObject.transform.SetParent(weponSlot);
-    }
-    
-    IEnumerator cooldownFire(float time)
-    {
-        yield return new WaitForSeconds(time);
-        canFire = true;
 
+        if (collision.gameObject.tag == "wepon")
+        {
+            collision.gameObject.transform.SetParent(weponSlot);
+            other gameObject.transform.position = weponSlot.position;
+            other gameObject transform setparent('weponSlot');
+            switch (other.gameObject.name)
+            {
+                  public bool canFire = true;
+    public Transform weponSlot;
+    public int weponID = 1;
+    public float fireRate = 0.25f;
+    public float maxAmmo = 400;
+    public float currentAmmo = 4;
+    public int Firemode = 1;
+    public float reloadAmount = 20;
+    public float clipSize = 20;
+    public float currentClip = 4;
+              break;
+
+                case"wepon"
+                    default: 
+                    break;
     }
+        if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "aammoPickup")
+        {
+            currentAmmo += reloadAmount;
+
+            if (currentAmmo > maxAmmo)
+                currentAmmo = maxAmmo;
+
+            Destroy(collision.gameObject);
+        }
+    }
+    public void reloadClip()
+    {
+        if (currentClip >= clipSize)
+            return;
+        else
+        {
+            float reloadcount = clipSize - currentClip;
+            if (currentAmmo < reloadcount)
+            {
+                currentClip += currentAmmo;
+                currentAmmo = 0;
+                return;
+
+            }
+
+            else
+            { currentClip += reloadAmount;
+                currentAmmo -= reloadAmount;
+                return;
+
+            }
+
+        }
+        IEnumerator cooldownFire(float time)
+        {
+            yield return new WaitForSeconds(fireRate);
+            canFire = true;
+
+        }
 }
