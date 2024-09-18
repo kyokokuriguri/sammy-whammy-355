@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody axle;
+    Rigidbody myRB;
     Camera playerCam;
 
     Vector2 camRotation;
 
-    public bool sprintMode = false;
+    public Transform weaponSlot;
 
-    [Header("wepon stats")]
-    public bool canFire = true;
-    public Transform weponSlot;
-    public int weponID = 1;
-    public float fireRate = 0;
-    public float maxAmmo = 0;
-    public float currentAmmo = 0;
-    public int Firemode = 1;
-    public float reloadAmount = 0;
-    public float clipSize = 0;
-    public float currentClip = 0;
-
-
-
-    [Header("player stats")]
+    [Header("Player Stats")]
     public int maxHealth = 5;
     public int health = 5;
     public int healthRestore = 1;
+
+    [Header("Weapon Stats")]
+    public int weaponID = -1;
+    public int fireMode = 0;
+    public float fireRate = 0;
+    public float currentClip = 0;
+    public float clipSize = 0;
+    public float maxAmmo = 0;
+    public float currentAmmo = 0;
+    public float reloadAmt = 0;
+    public bool canFire = true;
+
     [Header("Movement Settings")]
     public float speed = 10.0f;
     public float sprintMultiplier = 2.5f;
+    public bool sprintMode = false;
     public float jumpHeight = 5.0f;
     public float groundDetectDistance = 1f;
 
@@ -45,7 +44,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        axle = GetComponent<Rigidbody>();
+        myRB = GetComponent<Rigidbody>();
         playerCam = transform.GetChild(0).GetComponent<Camera>();
 
         camRotation = Vector2.zero;
@@ -64,22 +63,22 @@ public class PlayerController : MonoBehaviour
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
-        if (Input.GetMouseButton(0) && canFire)
+        if (Input.GetMouseButton(0) && canFire && currentClip > 0)
         {
             canFire = false;
-            currentAmmo--;
-            Startcoroutine("cooldownFire");
+            currentClip--;
+            StartCoroutine("cooldownFire");
         }
 
-        if (Input.GetKeyCode(KeyCode.R)
+        if (Input.GetKeyDown(KeyCode.R))
             reloadClip();
 
-        Vector3 temp = axle.velocity;
+        Vector3 temp = myRB.velocity;
 
         float verticalMove = Input.GetAxisRaw("Vertical");
         float horizontalMove = Input.GetAxisRaw("Horizontal");
 
-        if (!sprintToggleOption)
+        if(!sprintToggleOption)
         {
             if (Input.GetKey(KeyCode.LeftShift))
                 sprintMode = true;
@@ -88,7 +87,7 @@ public class PlayerController : MonoBehaviour
                 sprintMode = false;
         }
 
-        if (sprintToggleOption)
+        if(sprintToggleOption)
         {
             if (Input.GetKey(KeyCode.LeftShift) && verticalMove > 0)
                 sprintMode = true;
@@ -97,24 +96,48 @@ public class PlayerController : MonoBehaviour
                 sprintMode = false;
         }
 
-        if (!sprintMode)
-            temp.x = verticalMove * speed;
-
-        if (sprintMode)
-            temp.x = verticalMove * speed * sprintMultiplier;
-
+        temp.x = verticalMove * speed;
         temp.z = horizontalMove * speed;
 
+        if (sprintMode)
+            temp.x *= sprintMultiplier;
 
         if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
             temp.y = jumpHeight;
 
-        axle.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+        myRB.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "weapon")
+        {
+            other.gameObject.transform.position = weaponSlot.position;
+
+            other.gameObject.transform.SetParent(weaponSlot);
+
+            switch(other.gameObject.name)
+            {
+                case "weapon1":
+                    weaponID = 0;
+                    fireMode = 0;
+                    fireRate = 0.25f;
+                    currentClip = 20;
+                    clipSize = 20;
+                    maxAmmo = 400;
+                    currentAmmo = 200;
+                    reloadAmt = 20;
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
+        if((health < maxHealth) && collision.gameObject.tag == "healthPickup")
         {
             health += healthRestore;
 
@@ -124,33 +147,9 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-
-        if (collision.gameObject.tag == "wepon")
+        if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "ammoPickup")
         {
-            collision.gameObject.transform.SetParent(weponSlot);
-            other gameObject.transform.position = weponSlot.position;
-            other gameObject transform setparent('weponSlot');
-            switch (other.gameObject.name)
-            {
-                  public bool canFire = true;
-    public Transform weponSlot;
-    public int weponID = 1;
-    public float fireRate = 0.25f;
-    public float maxAmmo = 400;
-    public float currentAmmo = 4;
-    public int Firemode = 1;
-    public float reloadAmount = 20;
-    public float clipSize = 20;
-    public float currentClip = 4;
-              break;
-
-                case"wepon"
-                    default: 
-                    break;
-    }
-        if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "aammoPickup")
-        {
-            currentAmmo += reloadAmount;
+            currentAmmo += reloadAmt;
 
             if (currentAmmo > maxAmmo)
                 currentAmmo = maxAmmo;
@@ -158,33 +157,35 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+
     public void reloadClip()
     {
         if (currentClip >= clipSize)
             return;
+
         else
         {
-            float reloadcount = clipSize - currentClip;
-            if (currentAmmo < reloadcount)
+            float reloadCount = clipSize - currentClip;
+
+            if (currentAmmo < reloadCount)
             {
                 currentClip += currentAmmo;
                 currentAmmo = 0;
                 return;
-
             }
 
             else
-            { currentClip += reloadAmount;
-                currentAmmo -= reloadAmount;
+            {
+                currentClip += reloadCount;
+                currentAmmo -= reloadCount;
                 return;
-
             }
-
         }
-        IEnumerator cooldownFire(float time)
-        {
-            yield return new WaitForSeconds(fireRate);
-            canFire = true;
+    }
 
-        }
+    IEnumerator cooldownFire()
+    {
+        yield return new WaitForSeconds(fireRate);
+        canFire = true;
+    }
 }
