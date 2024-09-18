@@ -7,6 +7,8 @@ TagManager:
   - helth pick up
   - Healthpickup
   - wepon
+  - weapon
+  - shot
   layers:
   - Default
   - TransparentFX
