@@ -186,8 +186,9 @@ MonoBehaviour:
   maxHealth: 5
   health: 4
   healthRestore: 1
-  shot: {fileID: 0}
-  shotSpeed: 15
+  shot: {fileID: 8520293501208848107, guid: 730889a1658c050428ac36670b81ca77, type: 3}
+  bulletLifespan: 0
+  shotSpeed: 1
   weaponID: -1
   fireMode: 0
   fireRate: 0

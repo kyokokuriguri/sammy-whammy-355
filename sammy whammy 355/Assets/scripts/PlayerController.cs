@@ -20,15 +20,15 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon Stats")]
     public GameObject shot;
     public float bulletLifespan = 0f;
-    public float shotSpeed = 15f;
+    public float shotSpeed = 100f;
     public int weaponID = -1;
-    public int fireMode = 0;
-    public float fireRate = 0;
-    public float currentClip = 0;
-    public float clipSize = 0;
-    public float maxAmmo = 0;
-    public float currentAmmo = 0;
-    public float reloadAmt = 0;
+    public int fireMode = 10;
+    public float fireRate = 20;
+    public float currentClip = 100;
+    public float clipSize = 100;
+    public float maxAmmo = 100;
+    public float currentAmmo = 100;
+    public float reloadAmt = 20;
     public bool canFire = true;
 
     [Header("Movement Settings")]
@@ -70,9 +70,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButton(0) && canFire && currentClip > 0)
         {
-            GameObject s = instance(shot, weaponSlot.position, weaponSlot.rotation);
+            GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
             s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
-            Destroy(s,bulletLifespan);
+            Destroy(s, bulletLifespan);
             canFire = false;
             currentClip--;
             StartCoroutine("cooldownFire");
@@ -116,26 +116,36 @@ public class PlayerController : MonoBehaviour
         myRB.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
     }
 
-    private GameObject instance(GameObject shot, object position, Quaternion rotation)
-    {
-        throw new NotImplementedException();
-    }
-
-    private GameObject instantiate(GameObject shot, object position, Quaternion rotation)
-    {
-        throw new NotImplementedException();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "weapon")
         {
             other.gameObject.transform.position = weaponSlot.position;
+            other.gameObject.transform.rotation = weaponSlot.rotation;
 
             other.gameObject.transform.SetParent(weaponSlot);
+            switch (other.gameObject.name)
+            {
+                case "wepon":
+
+                    weaponID = 0;
+                    shotSpeed = 10000;
+                    fireMode = 0;
+                    fireRate = 0.25f;
+                    currentClip = 20;
+                    clipSize = 20;
+                    maxAmmo = 400;
+                    currentAmmo = 200;
+                    reloadAmt = 20;
+                    bulletLifespan = 1;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
-             
+
     private void OnCollisionEnter(Collision collision)
     {
         if((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
