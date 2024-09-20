@@ -57,6 +57,10 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+    public class temp : MonoBehaviour
+        private bool canFire;
+    private float fireRate;
+
 
     // Update is called once per frame
     void Update()
@@ -205,21 +209,14 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(fireRate);
         canFire = true;
     }
-    public class temp : MonoBehaviour
-        private bool canFire
-        private float fireRate
+
         StartCounterutine("cooldown");
-    StartCounterutine(cooldown2(fireRate));
+    StartCounterutine(cooldown1(fireRate));
     IEnumerator cooldownFire1()
     {
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(2);
         canFire = true;
 
 
-    }
-    IEnumerator cooldownFire()
-    {
-        yield return new WaitForSeconds(fireRate);
-        canFire = true;
     }
 }
