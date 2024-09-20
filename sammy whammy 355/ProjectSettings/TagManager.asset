@@ -9,6 +9,7 @@ TagManager:
   - wepon
   - weapon
   - shot
+  - melee
   layers:
   - Default
   - TransparentFX
