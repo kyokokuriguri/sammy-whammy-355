@@ -19,11 +19,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon Stats")]
     public GameObject shot;
+    public GameObject stabby;
     public float bulletLifespan = 0f;
     public float shotSpeed = 100f;
     public int weaponID = -1;
     public int fireMode = 10;
-    public float fireRate = 20;
+    public float fireRate = 20f;
     public float currentClip = 100;
     public float clipSize = 100;
     public float maxAmmo = 100;
@@ -67,6 +68,11 @@ public class PlayerController : MonoBehaviour
 
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
+        if (Input.GetMouseButtonDown(0) && canFire && weaponID <= 0)
+        {
+            stabby.SetActive(true);
+            StartCoroutine(cooldownFire(1f));
+        }
 
         if (Input.GetMouseButton(0) && canFire && currentClip > 0)
         {
