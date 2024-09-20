@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         float verticalMove = Input.GetAxisRaw("Vertical");
         float horizontalMove = Input.GetAxisRaw("Horizontal");
 
-        if(!sprintToggleOption)
+        if (!sprintToggleOption)
         {
             if (Input.GetKey(KeyCode.LeftShift))
                 sprintMode = true;
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
                 sprintMode = false;
         }
 
-        if(sprintToggleOption)
+        if (sprintToggleOption)
         {
             if (Input.GetKey(KeyCode.LeftShift) && verticalMove > 0)
                 sprintMode = true;
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
+        if ((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
         {
             health += healthRestore;
 
@@ -200,6 +200,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator cooldownFire()
+    {
+        yield return new WaitForSeconds(fireRate);
+        canFire = true;
+    }
+    public class temp : MonoBehaviour
+        private bool canFire
+        private float fireRate
+        StartCounterutine("cooldown");
+    StartCounterutine(cooldown2(fireRate));
+    IEnumerator cooldownFire1()
+    {
+        yield return new WaitForSeconds(fireRate);
+        canFire = true;
+
+
+    }
     IEnumerator cooldownFire()
     {
         yield return new WaitForSeconds(fireRate);
