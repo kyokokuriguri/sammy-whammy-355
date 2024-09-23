@@ -69,9 +69,19 @@ public class PlayerController : MonoBehaviour
 
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
-        if (Input.GetMouseButtonDown(0) && canFire && weaponID <= 1)
+       f (Input.GetMouseButtonDown(0) && canFire && weaponID = 0)
         {
             stabby.SetActive(true);
+            StartCoroutine(cooldownFire(fireRate));
+        }
+
+        else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
+        {
+            GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
+            s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
+            Destroy(s, bulletLifespan);
+            canFire = false;
+            currentClip--;
             StartCoroutine(cooldownFire(fireRate));
         }
 
