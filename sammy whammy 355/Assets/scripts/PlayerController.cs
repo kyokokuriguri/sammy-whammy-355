@@ -57,10 +57,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    public class temp : MonoBehaviour
-        private bool canFire;
-    private float fireRate;
-
+   
 
     // Update is called once per frame
     void Update()
@@ -72,10 +69,10 @@ public class PlayerController : MonoBehaviour
 
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
-        if (Input.GetMouseButtonDown(0) && canFire && weaponID <= 0)
+        if (Input.GetMouseButtonDown(0) && canFire && weaponID <= 1)
         {
             stabby.SetActive(true);
-            StartCoroutine(cooldownFire(1f));
+            StartCoroutine(cooldownFire(fireRate));
         }
 
         if (Input.GetMouseButton(0) && canFire && currentClip > 0)
@@ -85,7 +82,7 @@ public class PlayerController : MonoBehaviour
             Destroy(s, bulletLifespan);
             canFire = false;
             currentClip--;
-            StartCoroutine("cooldownFire");
+            StartCoroutine(cooldownFire(fireRate));
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -204,19 +201,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator cooldownFire()
+    IEnumerator cooldownFire(float time)
     {
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(time);
         canFire = true;
     }
 
-        StartCounterutine("cooldown");
-    StartCounterutine(cooldown1(fireRate));
-    IEnumerator cooldownFire1()
-    {
-        yield return new WaitForSeconds(2);
-        canFire = true;
 
-
-    }
 }
