@@ -10,6 +10,7 @@ TagManager:
   - weapon
   - shot
   - melee
+  - basic enimie
   layers:
   - Default
   - TransparentFX
