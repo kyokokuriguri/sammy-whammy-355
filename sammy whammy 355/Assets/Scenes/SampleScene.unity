@@ -1645,6 +1645,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8520293501208848107, guid: 730889a1658c050428ac36670b81ca77, type: 3}
     - target: {fileID: 5409110175993836526, guid: f4d8176a19e434f44a14e9e332727e71, type: 3}
+      propertyPath: stabby
+      value: 
+      objectReference: {fileID: 1594812038}
+    - target: {fileID: 5409110175993836526, guid: f4d8176a19e434f44a14e9e332727e71, type: 3}
       propertyPath: maxAmmo
       value: 100
       objectReference: {fileID: 0}
