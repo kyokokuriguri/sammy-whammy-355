@@ -137,14 +137,17 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "weapon")
         {
+            if (weaponSlot.GetChild(0) != null)
+                weaponSlot.GetChild(0).SetParent(null);
+
             other.gameObject.transform.position = weaponSlot.position;
             other.gameObject.transform.rotation = weaponSlot.rotation;
 
             other.gameObject.transform.SetParent(weaponSlot);
+
             switch (other.gameObject.name)
             {
                 case "wepon":
-
                     weaponID = 0;
                     shotSpeed = 10000;
                     fireMode = 0;
@@ -157,6 +160,18 @@ public class PlayerController : MonoBehaviour
                     bulletLifespan = 1;
                     break;
 
+                case "fencing sword":
+                    weaponID = 1;
+                    shotSpeed = 1;
+                    fireMode = 0;
+                    fireRate = 1f;
+                    currentClip = 0;
+                    clipSize = 1;
+                    maxAmmo = 1;
+                    currentAmmo = 1;
+                    reloadAmt = 1;
+                    bulletLifespan = 0;
+                    break;
                 default:
                     break;
             }

@@ -17,7 +17,7 @@ public class basicenimiecontroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("player");
+        player = GameObject.Find("player").GetComponent<PlayerController>();
 
     }
 
@@ -25,18 +25,21 @@ public class basicenimiecontroller : MonoBehaviour
     void Update()
     {
         agent.destination = player.transform.position;
-        if(health<= 0)
-           Destroy(gameObject)
+
+        if (health <= 0)
+            Destroy(gameObject);
 
     }
 
-    private void onCollistionEnter(collistion collistion)
+    private void OnCollisionEnter(Collision collistion)
     {
         if(collistion.gameObject.tag=="bullet")
         {
             health -= damageReceived;
             Destroy(collistion.gameObject);
+            health--;
+            
         }
-)
+
     }
 }
