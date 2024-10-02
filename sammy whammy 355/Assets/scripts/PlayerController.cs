@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody myRB;
+    public Camera cam;
     Camera playerCam;
 
     Vector2 camRotation;
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         myRB = GetComponent<Rigidbody>();
-        playerCam = transform.GetChild(0).GetComponent<Camera>();
+        playerCam = cam.GetComponent<Camera>();
 
         camRotation = Vector2.zero;
         Cursor.visible = false;
@@ -63,32 +64,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gm.isPaused)
-        {
-            camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
-            camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
 
-            camRotation.y = Mathf.Clamp(camRotation.y, -camRotationLimit, camRotationLimit);
+        camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
+        camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
 
-            playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
-            transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
-            if (Input.GetMouseButtonDown(0) && canFire && weaponID == 0)
+        camRotation.y = Mathf.Clamp(camRotation.y, -camRotationLimit, camRotationLimit);
+
+        playerCam.transform.rotation = Quaternion.Euler(-camRotation.y, camRotation.x, 0);
+        transform.localRotation = Quaternion.AngleAxis(-camRotation.x, Vector3.up);
+        if (Input.GetMouseButtonDown(0) && canFire && weaponID == 0)
             {
                 stabby.SetActive(true);
                 StartCoroutine(cooldownFire(fireRate));
             }
 
             else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
-            {
-                GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
-                s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
-                Destroy(s, bulletLifespan);
-                canFire = false;
-                currentClip--;
-                StartCoroutine(cooldownFire(fireRate));
-            }
-
-            if (Input.GetMouseButton(0) && canFire && currentClip > 0)
             {
                 GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
                 s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
@@ -133,9 +123,9 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
                 temp.y = jumpHeight;
 
-            myRB.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
-        }
-
+            myRB.velocity = (temp.x * this.transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+        
+    }
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "weapon")
@@ -236,4 +226,3 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-}
