@@ -27,6 +27,7 @@ public class basicenimiecontroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        agent.destination = player.transform.position;
 
         if (health <= 0)
         {
@@ -39,7 +40,7 @@ public class basicenimiecontroller : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collision collistion)
+    private void OnColliderEnter(Collision collistion)
     {
         if(collistion.gameObject.tag == "shot")
         {
