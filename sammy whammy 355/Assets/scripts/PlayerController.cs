@@ -192,6 +192,12 @@ public class PlayerController : MonoBehaviour
 
                 Destroy(collision.gameObject);
             }
+
+            if (collision.gameObject.tag == "basic enimie")
+            {
+                health -= collision.gameObject.GetComponent<basicenimiecontroller>().damageGiven;
+                Debug.Log("Took damage");
+            }
         }
 
         public void reloadClip()

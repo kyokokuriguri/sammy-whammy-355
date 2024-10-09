@@ -7,8 +7,11 @@ public class basicenimiecontroller : MonoBehaviour
 {
     public PlayerController player;
     public NavMeshAgent agent;
-    public GameObject Corpes;
-    public float corpesLifespan = 10;
+    public int attacker;
+    public int TransformPlayer;
+    public int DistMin = 1;
+    public int DistMax = 3;
+    public int AttackerMovementSpeed = 3;
 
     [Header("enime stats")]
     public int health = 5;
@@ -27,26 +30,35 @@ public class basicenimiecontroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.destination = player.transform.position;
+
+        //agent.destination = player.transform.position;
+        transform.LookAt(player.transform);
+        if(Vector3.Distance(transform.position, player.transform.position) >=DistMin)
+        {
+            transform.position += transform.forward * AttackerMovementSpeed * Time.deltaTime;
+        }
+        if (Vector3.Distance(transform.position, player.transform.position) <= DistMax)
+        {
+         agent.destination = player.transform.position;
+        }
+            
 
         if (health <= 0)
         {
+
             Destroy(gameObject);
-            GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
-            corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
-            Destroy(corpes, corpesLifespan); 
-        }
+        }       
 
 
     }
 
-    private void OnColliderEnter(Collision collistion)
+    private void OnTriggerEnter(Collider collision)
     {
-        if(collistion.gameObject.tag == "shot")
+        if(collision.gameObject.tag == "shot")
         {
             health -= damageReceived;
-            Destroy(collistion.gameObject);
-            
+            Destroy(collision.gameObject);
+            Debug.Log(damageReceived);
         }
 
     }
