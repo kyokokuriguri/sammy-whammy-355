@@ -10,7 +10,7 @@ public class basicenimiecontroller : MonoBehaviour
     public int attacker;
     public int TransformPlayer;
     public int DistMin = 1;
-    public int DistMax = 3;
+    public int DistMax = 2;
     public int AttackerMovementSpeed = 3;
 
     [Header("enime stats")]
