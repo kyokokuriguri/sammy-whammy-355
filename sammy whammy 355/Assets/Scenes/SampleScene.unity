@@ -1980,7 +1980,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 32
   m_CollisionDetection: 0
 --- !u!1 &1594812038
 GameObject:
@@ -2264,7 +2264,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2291,6 +2291,7 @@ MonoBehaviour:
   AttackerMovementSpeed: 3
   CorpesLifeSpan: 10
   Corpes: {fileID: 1557319915}
+  Player: {fileID: 4297159546555667139}
   health: 5
   maxhealth: 5
   damageGiven: 1
