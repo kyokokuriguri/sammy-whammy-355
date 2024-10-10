@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Vector3 = UnityEngine.Vector3;
 
 public class basicenimiecontroller : MonoBehaviour
 {
@@ -10,10 +11,11 @@ public class basicenimiecontroller : MonoBehaviour
     public int attacker;
     public int TransformPlayer;
     public int DistMin = 1;
-    public int DistMax = 1;
+    public int DistMax = 2;
     public int AttackerMovementSpeed = 3;
     public int CorpesLifeSpan = 10;
     public GameObject Corpes;
+    public Transform Player;
 
     [Header("enime stats")]
     public int health = 5;
@@ -34,18 +36,19 @@ public class basicenimiecontroller : MonoBehaviour
     {
 
         //agent.destination = player.transform.position;
-        transform.LookAt(player.transform);
-        if(Vector3.Distance(transform.position, player.transform.position) >=DistMin)
-        {
-            transform.position += transform.forward * AttackerMovementSpeed * Time.deltaTime;
-        }
-        if (Vector3.Distance(transform.position, player.transform.position) >= DistMax)
-        {
-         agent.destination = player.transform.position;
-        }
-            
+        
+            float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
+            if (distanceToPlayer <= DistMax)
+            {
+                agent.destination = player.transform.position;
 
-        if (health <= 0)
+                if (health <= 0)
+                    Destroy(gameObject);
+            }
+
+
+
+            if (health <= 0)
         {
 
             GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
