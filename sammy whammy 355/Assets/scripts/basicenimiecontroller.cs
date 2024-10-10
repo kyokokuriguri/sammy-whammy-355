@@ -12,6 +12,8 @@ public class basicenimiecontroller : MonoBehaviour
     public int DistMin = 1;
     public int DistMax = 2;
     public int AttackerMovementSpeed = 3;
+    public int CorpesLifeSpan = 10;
+    public GameObject Corpes;
 
     [Header("enime stats")]
     public int health = 5;
@@ -46,7 +48,9 @@ public class basicenimiecontroller : MonoBehaviour
         if (health <= 0)
         {
 
-            Destroy(gameObject);
+            GameObject Corpes = Instantiate(Corpes, transform.position, transform.rotation);
+            Corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
+            Destroy(Corpes, CorpesLifeSpan);
         }       
 
 
