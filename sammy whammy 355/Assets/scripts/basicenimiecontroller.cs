@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 using Vector3 = UnityEngine.Vector3;
 
 public class basicenimiecontroller : MonoBehaviour
@@ -10,10 +11,10 @@ public class basicenimiecontroller : MonoBehaviour
     public NavMeshAgent agent;
     public int attacker;
     public int TransformPlayer;
-    public int DistMin = 1;
-    public int DistMax = 2;
+    public int DistMin = 10;
+    public int DistMax = 20;
     public int AttackerMovementSpeed = 3;
-    public int CorpesLifeSpan = 30;
+    public int CorpesLifeSpan = 15;
     public GameObject Corpes;
     public Transform Player;
 
@@ -42,22 +43,14 @@ public class basicenimiecontroller : MonoBehaviour
             {
                 agent.destination = player.transform.position;
 
-                if (health <= 0)
-                    Destroy(gameObject);
-            }
-
-
-
             if (health <= 0)
-        {
-
-            GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
-            corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
-            Destroy(corpes, CorpesLifeSpan);
-            Destroy(gameObject);
+            {
+                GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
+                corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
+                Destroy(corpes, CorpesLifeSpan);
+                Destroy(gameObject);
+            }
         }
-
-
     }
 
     private void OnTriggerEnter(Collider collision)
