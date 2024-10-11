@@ -12,7 +12,7 @@ public class basicenimiecontroller : MonoBehaviour
     public int attacker;
     public int TransformPlayer;
     public int DistMin = 10;
-    public int DistMax = 20;
+    public int DistMax = 15;
     public int AttackerMovementSpeed = 3;
     public int CorpesLifeSpan = 15;
     public GameObject Corpes;
@@ -39,16 +39,16 @@ public class basicenimiecontroller : MonoBehaviour
         //agent.destination = player.transform.position;
         
             float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
-            if (distanceToPlayer <= DistMax)
-            {
-                agent.destination = player.transform.position;
+        if (distanceToPlayer <= DistMax)
+        {
+            agent.destination = player.transform.position;
 
+              
             if (health <= 0)
             {
                 GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
                 corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
                 Destroy(corpes, CorpesLifeSpan);
-                Destroy(gameObject);
             }
         }
     }

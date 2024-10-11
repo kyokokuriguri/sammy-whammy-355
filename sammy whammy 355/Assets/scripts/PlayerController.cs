@@ -159,11 +159,11 @@ public class PlayerController : MonoBehaviour
                         fireMode = 0;
                         fireRate = 1f;
                         currentClip = 0;
-                        clipSize = 1;
-                        maxAmmo = 1;
-                        currentAmmo = 1;
-                        reloadAmt = 1;
-                        bulletLifespan = 0;
+                        clipSize = 0;
+                        maxAmmo = 0;
+                        currentAmmo = 0;
+                        reloadAmt = 0;
+                        bulletLifespan = 2;
                         break;
                     default:
                         break;
