@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerData = GameObject.Find("Player").GetComponent<PlayerController>();
+        pauseMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour
                 clipCounter.gameObject.SetActive(true);
                 ammoCounter.gameObject.SetActive(true);
 
-                clipCounter.text = "clip;" + playerData.currentClip + "/" + playerData.clipSize;
+                clipCounter.text = "clip:" + playerData.currentClip + "/" + playerData.clipSize;
                 ammoCounter.text = "ammo" + playerData.currentAmmo;
             }
             if (Input.GetKeyDown(KeyCode.Escape))

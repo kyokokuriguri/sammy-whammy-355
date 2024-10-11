@@ -42,15 +42,16 @@ public class basicenimiecontroller : MonoBehaviour
         if (distanceToPlayer <= DistMax)
         {
             agent.destination = player.transform.position;
-
-              
-            if (health <= 0)
-            {
-                GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
-                corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
-                Destroy(corpes, CorpesLifeSpan);
-            }
         }
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
+            corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
+            Destroy(corpes, CorpesLifeSpan);
+        }
+
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -62,5 +63,13 @@ public class basicenimiecontroller : MonoBehaviour
             Debug.Log(damageReceived);
         }
 
+        Debug.Log(collision.gameObject.name);
+
+    }
+
+    void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log(damage);
     }
 }

@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon Stats")]
     public GameObject shot;
     public GameObject stabby;
+    public GameObject stabbyHitBox;
     public float bulletLifespan = 0f;
     public float shotSpeed = 100f;
     public int weaponID = -1;
@@ -73,64 +74,64 @@ public class PlayerController : MonoBehaviour
         playerCam.transform.rotation = Quaternion.Euler(-camRotation.y, camRotation.x, 0);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
         if (Input.GetMouseButtonDown(0) && canFire && weaponID == 0)
-            {
-                stabby.SetActive(true);
-                StartCoroutine(cooldownFire(fireRate));
-            }
+        {
+            stabbyHitBox.SetActive(true);
+            StartCoroutine(cooldownFire(fireRate));
+        }
 
-            else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
-            {
-                GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
-                s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
-                Destroy(s, bulletLifespan);
-                canFire = false;
-                currentClip--;
-                StartCoroutine(cooldownFire(fireRate));
-            }
+        else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
+        {
+            GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
+            s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
+            Destroy(s, bulletLifespan);
+            canFire = false;
+            currentClip--;
+            StartCoroutine(cooldownFire(fireRate));
+        }
 
-            if (Input.GetKeyDown(KeyCode.R))
-                reloadClip();
+        if (Input.GetKeyDown(KeyCode.R))
+            reloadClip();
 
-            Vector3 temp = myRB.velocity;
+        Vector3 temp = myRB.velocity;
 
-            float verticalMove = Input.GetAxisRaw("Vertical");
-            float horizontalMove = Input.GetAxisRaw("Horizontal");
+        float verticalMove = Input.GetAxisRaw("Vertical");
+        float horizontalMove = Input.GetAxisRaw("Horizontal");
 
-            if (!sprintToggleOption)
-            {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    sprintMode = true;
+        if (!sprintToggleOption)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+                sprintMode = true;
 
-                if (Input.GetKeyUp(KeyCode.LeftShift))
-                    sprintMode = false;
-            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+                sprintMode = false;
+        }
 
-            if (sprintToggleOption)
-            {
-                if (Input.GetKey(KeyCode.LeftShift) && verticalMove > 0)
-                    sprintMode = true;
+        if (sprintToggleOption)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) && verticalMove > 0)
+                sprintMode = true;
 
-                if (verticalMove <= 0)
-                    sprintMode = false;
-            }
+            if (verticalMove <= 0)
+                sprintMode = false;
+        }
 
-            temp.x = verticalMove * speed;
-            temp.z = horizontalMove * speed;
+        temp.x = verticalMove * speed;
+        temp.z = horizontalMove * speed;
 
-            if (sprintMode)
-                temp.x *= sprintMultiplier;
+        if (sprintMode)
+            temp.x *= sprintMultiplier;
 
-            if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
-                temp.y = jumpHeight;
+        if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
+            temp.y = jumpHeight;
 
-            myRB.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+        myRB.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
         
     }
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "weapon")
             {
-                if (weaponSlot.GetChild(0) != null)
+                if (weaponSlot.childCount > 0)
                     weaponSlot.GetChild(0).SetParent(null);
 
                 other.gameObject.transform.position = weaponSlot.position;
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 switch (other.gameObject.name)
                 {
                     case "wepon":
-                        weaponID = 0;
+                        weaponID = 1;
                         shotSpeed = 10000;
                         fireMode = 0;
                         fireRate = 0.25f;
@@ -154,14 +155,14 @@ public class PlayerController : MonoBehaviour
                         break;
 
                     case "fencing sword":
-                        weaponID = 1;
+                        weaponID = 0;
                         shotSpeed = 1;
                         fireMode = 0;
                         fireRate = 1f;
-                        currentClip = 0;
+                        currentClip = 1;
                         clipSize = 0;
-                        maxAmmo = 0;
-                        currentAmmo = 0;
+                        maxAmmo = 4000;
+                        currentAmmo = 200;
                         reloadAmt = 0;
                         bulletLifespan = 2;
                         break;
@@ -229,6 +230,7 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             canFire = true;
+        stabbyHitBox.SetActive(false);
         }
 
     }
