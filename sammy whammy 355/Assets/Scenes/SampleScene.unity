@@ -2286,8 +2286,8 @@ MonoBehaviour:
   agent: {fileID: 272537811}
   attacker: 0
   TransformPlayer: 0
-  DistMin: 1
-  DistMax: 1
+  DistMin: 10
+  DistMax: 20
   AttackerMovementSpeed: 3
   CorpesLifeSpan: 30
   Corpes: {fileID: 1557319915}
