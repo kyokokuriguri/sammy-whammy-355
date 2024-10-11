@@ -13,7 +13,7 @@ public class basicenimiecontroller : MonoBehaviour
     public int DistMin = 1;
     public int DistMax = 2;
     public int AttackerMovementSpeed = 3;
-    public int CorpesLifeSpan = 10;
+    public int CorpesLifeSpan = 30;
     public GameObject Corpes;
     public Transform Player;
 

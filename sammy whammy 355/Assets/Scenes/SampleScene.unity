@@ -2289,7 +2289,7 @@ MonoBehaviour:
   DistMin: 1
   DistMax: 1
   AttackerMovementSpeed: 3
-  CorpesLifeSpan: 10
+  CorpesLifeSpan: 30
   Corpes: {fileID: 1557319915}
   Player: {fileID: 4297159546555667139}
   health: 5
