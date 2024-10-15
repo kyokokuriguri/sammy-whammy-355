@@ -47,9 +47,6 @@ public class basicenimiecontroller : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
-            GameObject corpes = Instantiate(Corpes, transform.position, transform.rotation);
-            corpes.GetComponent<Rigidbody>().AddForce(-transform.forward * corpesForce);
-            Destroy(corpes, CorpesLifeSpan);
         }
 
     }
