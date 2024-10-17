@@ -14,8 +14,6 @@ public class basicenimiecontroller : MonoBehaviour
     public int DistMin = 10;
     public int DistMax = 15;
     public int AttackerMovementSpeed = 3;
-    public int CorpesLifeSpan = 15;
-    public GameObject Corpes;
     public Transform Player;
 
     [Header("enime stats")]

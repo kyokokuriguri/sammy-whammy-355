@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerData = GameObject.Find("Player").GetComponent<PlayerController>();
+        //playerData = GameObject.Find("Player").GetComponent<PlayerController>();
         pauseMenu.SetActive(false);
     }
 

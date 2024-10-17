@@ -6,8 +6,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody myRB;
-    public Camera cam;
-    Camera playerCam;
+    public Camera playerCam;
+    Camera cam;
+    public Transform cameraHolder;
+    Transform a;
 
     Vector2 camRotation;
 
@@ -20,8 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon Stats")]
     public GameObject shot;
-    public GameObject stabby;
-    public GameObject stabbyHitBox;
+  
     public float bulletLifespan = 0f;
     public float shotSpeed = 100f;
     public int weaponID = -1;
@@ -52,9 +53,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         myRB = GetComponent<Rigidbody>();
-        playerCam = cam.GetComponent<Camera>();
 
         camRotation = Vector2.zero;
         Cursor.visible = false;
@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerCam.transform.position = cameraHolder.position;
 
         camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
         camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
@@ -73,10 +74,9 @@ public class PlayerController : MonoBehaviour
 
         playerCam.transform.rotation = Quaternion.Euler(-camRotation.y, camRotation.x, 0);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
+
         if (Input.GetMouseButtonDown(0) && canFire && weaponID == 0)
         {
-            stabbyHitBox.SetActive(true);
-            StartCoroutine(cooldownFire(fireRate));
         }
 
         else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             canFire = true;
-        stabbyHitBox.SetActive(false);
+        //stabbyHitBox.SetActive(false);
         }
 
     }
