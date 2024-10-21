@@ -67,26 +67,29 @@ public class PlayerController : MonoBehaviour
     {
         playerCam.transform.position = cameraHolder.position;
 
-        camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
-        camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.timeScale;
+        camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity * Time.timeScale;
 
         camRotation.y = Mathf.Clamp(camRotation.y, -camRotationLimit, camRotationLimit);
 
         playerCam.transform.rotation = Quaternion.Euler(-camRotation.y, camRotation.x, 0);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
-        if (Input.GetMouseButtonDown(0) && canFire && weaponID == 0)
+        if (weaponID > -1)
         {
-        }
+            if (Input.GetMouseButtonDown(0) && canFire && weaponID == 0)
+            {
+            }
 
-        else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
-        {
-            GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
-            s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
-            Destroy(s, bulletLifespan);
-            canFire = false;
-            currentClip--;
-            StartCoroutine(cooldownFire(fireRate));
+            else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
+            {
+                GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
+                s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
+                Destroy(s, bulletLifespan);
+                canFire = false;
+                currentClip--;
+                StartCoroutine(cooldownFire(fireRate));
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -154,16 +157,16 @@ public class PlayerController : MonoBehaviour
                         bulletLifespan = 1;
                         break;
 
-                    case "fencing sword":
+                    case "gun 2":
                         weaponID = 0;
-                        shotSpeed = 1;
+                        shotSpeed = 1000;
                         fireMode = 0;
                         fireRate = 1f;
-                        currentClip = 1;
-                        clipSize = 0;
-                        maxAmmo = 4000;
+                        currentClip = 200;
+                        clipSize = 200;
+                        maxAmmo = 200;
                         currentAmmo = 200;
-                        reloadAmt = 0;
+                        reloadAmt = 50;
                         bulletLifespan = 2;
                         break;
                     default:

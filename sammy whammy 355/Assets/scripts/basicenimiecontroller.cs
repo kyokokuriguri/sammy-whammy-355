@@ -9,11 +9,8 @@ public class basicenimiecontroller : MonoBehaviour
 {
     public PlayerController player;
     public NavMeshAgent agent;
-    public int attacker;
-    public int TransformPlayer;
     public int DistMin = 10;
     public int DistMax = 15;
-    public int AttackerMovementSpeed = 3;
     public Transform Player;
 
     [Header("enime stats")]

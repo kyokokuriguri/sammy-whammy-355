@@ -182,18 +182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9fb5de684518045b37c58d87da683e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  playerCam: {fileID: 0}
+  cameraHolder: {fileID: 0}
   weaponSlot: {fileID: 0}
   gm: {fileID: 0}
   maxHealth: 5
   health: 5
   healthRestore: 1
   shot: {fileID: 8520293501208848107, guid: 730889a1658c050428ac36670b81ca77, type: 3}
-  stabby: {fileID: 0}
-  stabbyHitBox: {fileID: 0}
   bulletLifespan: 4
   shotSpeed: 1
-  weaponID: 1
+  weaponID: -1
   fireMode: 1
   fireRate: 20
   currentClip: 100
