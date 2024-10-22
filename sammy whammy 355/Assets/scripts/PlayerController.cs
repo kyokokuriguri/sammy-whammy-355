@@ -201,14 +201,14 @@ public class PlayerController : MonoBehaviour
             {
                 health -= collision.gameObject.GetComponent<basicenimiecontroller>().damageGiven;
                 Debug.Log("Took damage");
-            }
-            if (collision.gameObject.tag == "NL") 
-            {
-            gm.LoadLevel(2);
-            }
         }
+        if (collision.gameObject.tag == "NL")
+        {
+            gm.LoadLevel(2);
+        }
+     }
 
-        public void reloadClip()
+    public void reloadClip()
         {
             if (currentClip >= clipSize)
                 return;
