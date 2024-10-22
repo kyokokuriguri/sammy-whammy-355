@@ -12,6 +12,8 @@ TagManager:
   - melee
   - basic enimie
   - NL
+  - pp
+  - door
   layers:
   - Default
   - TransparentFX

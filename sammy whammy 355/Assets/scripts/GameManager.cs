@@ -13,19 +13,30 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI clipCounter;
     public TextMeshProUGUI ammoCounter;
     public GameObject pauseMenu;
+    public int enimecounter;
 
-
+    bool finished = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        enimecounter = GameObject.FindGameObjectsWithTag("pp").Length;
         //playerData = GameObject.Find("Player").GetComponent<PlayerController>();
         pauseMenu.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        var foundObjects = Object.FindObjectsOfType<basicenimiecontroller>();
+        int count = foundObjects.Length;
+
+        if (count < 1)
+        {
+            finished = true;
+        }
+
         if (SceneManager.GetActiveScene().buildIndex > 0)
         {
             healthBar.fillAmount = Mathf.Clamp((float)playerData.health / (float)playerData.maxHealth,0,1);
@@ -81,6 +92,12 @@ public class GameManager : MonoBehaviour
             {
                 LoadLevel(SceneManager.GetActiveScene().buildIndex);
             }
-        
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "door" && finished)
+        {
+            LoadLevel(3);
+        }
+    }
+
 }
