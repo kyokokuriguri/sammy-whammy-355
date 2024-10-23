@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon Stats")]
     public GameObject shot;
-  
+    public AudioSource weaponSpeaker;
     public float bulletLifespan = 0f;
     public float shotSpeed = 100f;
     public int weaponID = -1;
@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
             else if (Input.GetMouseButton(0) && canFire && currentClip > 0)
             {
+                weaponSpeaker.Play();
                 GameObject s = Instantiate(shot, weaponSlot.position, weaponSlot.transform.rotation);
                 s.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * shotSpeed);
                 Destroy(s, bulletLifespan);
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 other.gameObject.transform.rotation = weaponSlot.rotation;
 
                 other.gameObject.transform.SetParent(weaponSlot);
-
+            weaponSpeaker = other.gameObject.GetComponent<AudioSource>();
                 switch (other.gameObject.name)
                 {
                     case "wepon":
@@ -206,33 +207,36 @@ public class PlayerController : MonoBehaviour
         {
             gm.LoadLevel(2);
         }
-     }
+        if (health <= 0)
+        {
+            gm.RestartLevel();
+        }
+    }
 
     public void reloadClip()
+    {
+        if (currentClip >= clipSize)
+            return;
+
+        else
         {
-            if (currentClip >= clipSize)
+            float reloadCount = clipSize - currentClip;
+
+            if (currentAmmo < reloadCount)
+            {
+                currentClip += currentAmmo;
+                currentAmmo = 0;
                 return;
+            }
 
             else
             {
-                float reloadCount = clipSize - currentClip;
-
-                if (currentAmmo < reloadCount)
-                {
-                    currentClip += currentAmmo;
-                    currentAmmo = 0;
-                    return;
-                }
-
-                else
-                {
-                    currentClip += reloadCount;
-                    currentAmmo -= reloadCount;
-                    return;
-                }
+                currentClip += reloadCount;
+                currentAmmo -= reloadCount;
+                return;
             }
         }
-
+    }
         IEnumerator cooldownFire(float time)
         {
             yield return new WaitForSeconds(time);

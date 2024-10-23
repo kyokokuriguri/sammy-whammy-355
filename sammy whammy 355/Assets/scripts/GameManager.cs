@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enimecounter = GameObject.FindGameObjectsWithTag("pp").Length;
+        enimecounter = GameObject.FindGameObjectsWithTag("basic enimie").Length;
         //playerData = GameObject.Find("Player").GetComponent<PlayerController>();
         pauseMenu.SetActive(false);
         
@@ -29,10 +29,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var foundObjects = Object.FindObjectsOfType<basicenimiecontroller>();
-        int count = foundObjects.Length;
-
-        if (count < 1)
+        //var foundObjects = Object.FindObjectsOfType<basicenimiecontroller>("basic enimie");
+        //int count = foundObjects.Length;
+        if (enimecounter == 0)
         {
             finished = true;
         }

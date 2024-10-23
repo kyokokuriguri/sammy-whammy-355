@@ -12,6 +12,8 @@ public class basicenimiecontroller : MonoBehaviour
     public int DistMin = 10;
     public int DistMax = 15;
     public Transform Player;
+    public AudioSource weaponSpeaker;
+    private GameManager gm;
 
     [Header("enime stats")]
     public int health = 5;
@@ -24,16 +26,17 @@ public class basicenimiecontroller : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
+        gm = GameObject.Find("game manager").GetComponent<GameManager>();
         agent = GetComponent<NavMeshAgent>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
         //agent.destination = player.transform.position;
-        
-            float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
+        weaponSpeaker = GetComponent<AudioSource>();
+        float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
         if (distanceToPlayer <= DistMax)
         {
             agent.destination = player.transform.position;
@@ -41,7 +44,9 @@ public class basicenimiecontroller : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            gm.enimecounter--;
+            weaponSpeaker.Play();
+            Destroy(gameObject, 2f);
         }
 
     }
