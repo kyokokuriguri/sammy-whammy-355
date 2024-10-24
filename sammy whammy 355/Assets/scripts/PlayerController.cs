@@ -160,9 +160,9 @@ public class PlayerController : MonoBehaviour
 
                     case "gun 2":
                         weaponID = 0;
-                    shotSpeed = 5000;
-                    fireMode = 0;
-                        fireRate = 1f;
+                        shotSpeed = 5000;
+                        fireMode = 0;
+                        fireRate = .75f;
                         currentClip = 200;
                         clipSize = 200;
                         maxAmmo = 200;
@@ -206,6 +206,10 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "NL")
         {
             gm.LoadLevel(2);
+        }
+        if (collision.gameObject.tag == "door" && gm.finished)
+        {
+            gm.LoadLevel(0);
         }
         if (health <= 0)
         {

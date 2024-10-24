@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public int enimecounter;
 
-    bool finished = false;
+    public bool finished = false;
 
     // Start is called before the first frame update
     void Start()
@@ -91,12 +91,5 @@ public class GameManager : MonoBehaviour
             {
                 LoadLevel(SceneManager.GetActiveScene().buildIndex);
             }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "door" && finished)
-        {
-            LoadLevel(3);
-        }
-    }
 
 }
