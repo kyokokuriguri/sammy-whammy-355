@@ -160,8 +160,8 @@ public class PlayerController : MonoBehaviour
 
                     case "gun 2":
                         weaponID = 0;
-                        shotSpeed = 1000;
-                        fireMode = 0;
+                    shotSpeed = 5000;
+                    fireMode = 0;
                         fireRate = 1f;
                         currentClip = 200;
                         clipSize = 200;
