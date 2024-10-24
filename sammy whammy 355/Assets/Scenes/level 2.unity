@@ -1909,6 +1909,7 @@ MonoBehaviour:
   ammoCounter: {fileID: 441144483}
   pauseMenu: {fileID: 129462364}
   enimecounter: 0
+  finished: 0
 --- !u!4 &1103926061
 Transform:
   m_ObjectHideFlags: 0
