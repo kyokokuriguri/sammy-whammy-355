@@ -178,6 +178,7 @@ public class PlayerController : MonoBehaviour
 
         private void OnCollisionEnter(Collision collision)
         {
+            Debug.Log("works");
             if ((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
             {
                 health += healthRestore;
@@ -202,20 +203,20 @@ public class PlayerController : MonoBehaviour
             {
                 health -= collision.gameObject.GetComponent<basicenimiecontroller>().damageGiven;
                 Debug.Log("Took damage");
+            }
+            if (collision.gameObject.tag == "NL")
+            {
+                gm.LoadLevel(2);
+            }
+            if (collision.gameObject.tag == "door" && gm.finished)
+            {
+                gm.LoadLevel(0);
+            }
+            if (health <= 0)
+            {
+                gm.RestartLevel();
+            }
         }
-        if (collision.gameObject.tag == "NL")
-        {
-            gm.LoadLevel(2);
-        }
-        if (collision.gameObject.tag == "door" && gm.finished)
-        {
-            gm.LoadLevel(0);
-        }
-        if (health <= 0)
-        {
-            gm.RestartLevel();
-        }
-    }
 
     public void reloadClip()
     {
