@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
                 {
                     case "wepon":
                         weaponID = 1;
-                        shotSpeed = 10000;
+                        shotSpeed = 9000;
                         fireMode = 0;
                         fireRate = 0.25f;
                         currentClip = 20;
@@ -178,7 +178,6 @@ public class PlayerController : MonoBehaviour
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log("works");
             if ((health < maxHealth) && collision.gameObject.tag == "Healthpickup")
             {
                 health += healthRestore;
